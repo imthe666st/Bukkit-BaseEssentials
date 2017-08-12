@@ -65,6 +65,7 @@ public class EssentialsPlugin extends BasePlugin<EssentialsPlugin> {
 		registerCommand(new GamemodeAdventureCommand(this));
 		registerCommand(new GamemodeSpectatorCommand(this));
 		registerCommand(new ItemCommand(this));
+		registerCommand(new ItemSerializeCommand(this));
 	}
 
 	@Override
