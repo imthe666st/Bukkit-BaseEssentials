@@ -1,6 +1,6 @@
 main: Phecda.BaseEssentials.EssentialsPlugin
 name: BaseEssentials
-version: 1.0 rev2
+version: 1.0
 author: Phecda
 description: BaseEssentials - Basic collection of commands and utilities
 depend: [BasePluginApi]
