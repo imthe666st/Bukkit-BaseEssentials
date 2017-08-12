@@ -3,6 +3,7 @@ package Phecda.BaseEssentials.Commands.Player;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -55,23 +56,22 @@ public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
 		FileConfiguration config = plugin.getFileConfiguration("itemserialization");
 		
 		if (args.isEmpty()) {
-			int c = 0;
-			Iterator<ItemStack> it = pinv.iterator();
-			it.next();
-			
-			for (ItemStack is = null; it.hasNext(); is = it.next()) {
+			for (int c = 0; c < 41; c++) {
+				ItemStack is = pinv.getItem(c);
+				
 				config.set("inventory." + c , is);
-				c++;
 			}
+			
 			
 			plugin.saveFileConfiguration("itemserialization");
 			
 		} else {
 			ItemStack[] items = new ItemStack[41];
-//			int c = 0;
 			for (int i=0; i<items.length; i++) {
 				items[i] = config.getItemStack("inventory." + i);
 			}
+			
+			
 			
 			pinv.setContents(items);
 		}
