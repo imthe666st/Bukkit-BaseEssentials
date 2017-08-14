@@ -1,15 +1,24 @@
 package Phecda.BaseEssentials.Commands.Player;
 
-import java.util.Iterator;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
+import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import Phecda.BaseEssentials.EssentialsPlugin;
 import Phecda.BasePlugin.Components.PluginCommand;
@@ -56,26 +65,51 @@ public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
 		FileConfiguration config = plugin.getFileConfiguration("itemserialization");
 		
 		if (args.isEmpty()) {
-			for (int c = 0; c < 41; c++) {
-				ItemStack is = pinv.getItem(c);
-				
-				config.set("inventory." + c , is);
-			}
-			
+			config.set("inv", ItemStackToBase64(pinv.getItemInMainHand()));
 			
 			plugin.saveFileConfiguration("itemserialization");
-			
 		} else {
-			ItemStack[] items = new ItemStack[41];
-			for (int i=0; i<items.length; i++) {
-				items[i] = config.getItemStack("inventory." + i);
+			try {
+				pinv.setItemInMainHand(ItemStackFromBase64(config.getString("inv")));
+			} catch (Exception e) {
+				e.printStackTrace();
+				p.sendMessage("We fucked up");
 			}
-			
-			
-			
-			pinv.setContents(items);
 		}
 		return true;
 		
+	}
+	
+	
+	public static String ItemStackToBase64(ItemStack item) {
+
+		try {
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			BukkitObjectOutputStream boos = new BukkitObjectOutputStream(os);
+		
+			boos.writeObject(item);
+			
+			boos.close();
+			return Base64Coder.encodeLines(os.toByteArray()).replaceAll(System.lineSeparator(), new String());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	public static ItemStack ItemStackFromBase64(String data) {
+		try {
+            ByteArrayInputStream is = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream bois = new BukkitObjectInputStream(is);
+
+			ItemStack item = (ItemStack) bois.readObject();
+            
+            bois.close();
+            
+            return item;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
 	}
 }
