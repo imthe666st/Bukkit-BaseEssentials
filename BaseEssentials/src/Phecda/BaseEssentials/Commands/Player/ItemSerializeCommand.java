@@ -2,18 +2,12 @@ package Phecda.BaseEssentials.Commands.Player;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -73,9 +67,10 @@ public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
 				pinv.setItemInMainHand(ItemStackFromBase64(config.getString("inv")));
 			} catch (Exception e) {
 				e.printStackTrace();
-				p.sendMessage("We fucked up");
 			}
 		}
+		
+		
 		return true;
 		
 	}
