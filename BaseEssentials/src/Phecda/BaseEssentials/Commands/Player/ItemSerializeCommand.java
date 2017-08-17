@@ -16,6 +16,7 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import Phecda.BaseEssentials.EssentialsPlugin;
 import Phecda.BasePlugin.Components.PluginCommand;
+import Phecda.BasePlugin.Utility.ObjectSerialization;
 import Phecda.Utility.Queue;
 
 public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
@@ -58,13 +59,15 @@ public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
 		
 		FileConfiguration config = plugin.getFileConfiguration("itemserialization");
 		
+		ObjectSerialization<ItemStack> itemStackSerializer = new ObjectSerialization<ItemStack>();
+		
 		if (args.isEmpty()) {
-			config.set("inv", ItemStackToBase64(pinv.getItemInMainHand()));
+			config.set("inv", itemStackSerializer.toBase64(pinv.getItemInMainHand()));
 			
 			plugin.saveFileConfiguration("itemserialization");
 		} else {
 			try {
-				pinv.setItemInMainHand(ItemStackFromBase64(config.getString("inv")));
+				pinv.setItemInMainHand(itemStackSerializer.fromBase64(config.getString("inv")));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -73,38 +76,5 @@ public class ItemSerializeCommand extends PluginCommand<EssentialsPlugin> {
 		
 		return true;
 		
-	}
-	
-	
-	public static String ItemStackToBase64(ItemStack item) {
-
-		try {
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			BukkitObjectOutputStream boos = new BukkitObjectOutputStream(os);
-		
-			boos.writeObject(item);
-			
-			boos.close();
-			return Base64Coder.encodeLines(os.toByteArray()).replaceAll(System.lineSeparator(), new String());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-	
-	public static ItemStack ItemStackFromBase64(String data) {
-		try {
-            ByteArrayInputStream is = new ByteArrayInputStream(Base64Coder.decodeLines(data));
-            BukkitObjectInputStream bois = new BukkitObjectInputStream(is);
-
-			ItemStack item = (ItemStack) bois.readObject();
-            
-            bois.close();
-            
-            return item;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
 	}
 }

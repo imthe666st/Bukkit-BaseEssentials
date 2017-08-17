@@ -6,11 +6,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import Phecda.BaseEssentials.Commands.Bypass.*;
-import Phecda.BaseEssentials.Commands.Inventory.*;
-import Phecda.BaseEssentials.Commands.Player.*;
-import Phecda.BaseEssentials.Commands.Warp.*;
-
+import Phecda.BaseEssentials.Commands.Bypass.ConsoleCommand;
+import Phecda.BaseEssentials.Commands.Inventory.EnderChestCommand;
+import Phecda.BaseEssentials.Commands.Inventory.InventorySeeCommand;
+import Phecda.BaseEssentials.Commands.Inventory.SupplyCommand;
+import Phecda.BaseEssentials.Commands.Player.GamemodeAdventureCommand;
+import Phecda.BaseEssentials.Commands.Player.GamemodeCreativeCommand;
+import Phecda.BaseEssentials.Commands.Player.GamemodeSpectatorCommand;
+import Phecda.BaseEssentials.Commands.Player.GamemodeSurvivalCommand;
+import Phecda.BaseEssentials.Commands.Player.ItemCommand;
+import Phecda.BaseEssentials.Commands.Player.ItemSerializeCommand;
+import Phecda.BaseEssentials.Commands.Warp.SetSpawnCommand;
+import Phecda.BaseEssentials.Commands.Warp.SpawnCommand;
 import Phecda.BaseEssentials.Listeners.PlayerRespawnHandler;
 import Phecda.BasePlugin.BasePlugin;
 
@@ -66,7 +73,6 @@ public class EssentialsPlugin extends BasePlugin<EssentialsPlugin> {
 		registerCommand(new GamemodeSpectatorCommand(this));
 		registerCommand(new ItemCommand(this));
 		registerCommand(new ItemSerializeCommand(this));
-		registerCommand(new VeinMinerCommand(this));
 	}
 
 	@Override
