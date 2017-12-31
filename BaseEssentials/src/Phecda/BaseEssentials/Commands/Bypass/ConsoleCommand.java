@@ -57,4 +57,5 @@ public class ConsoleCommand extends PluginCommand<EssentialsPlugin> {
 		return true;
 	}
 
+
 }
